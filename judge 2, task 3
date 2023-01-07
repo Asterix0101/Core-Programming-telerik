@@ -1,0 +1,32 @@
+#judge 2, task 3
+
+Forward_Sum = 0
+Backward_Sum = 0
+
+position = int(input())
+values = input().split(',')
+while True:
+    instruction = input().split(' ')
+    if instruction[0] == 'exit':
+        break
+    moves = int(instruction[0])
+    step = int(instruction[2])
+
+    if instruction[1] == 'forward':
+         for i in range(moves):
+            if position + step > len(values) - 1:
+                position = position + step - (len(values))
+            else:
+                position = position + step
+
+            Forward_Sum += int(values[position])
+    elif instruction[1] == 'backwards':
+        for i in range(moves):
+            if position - step < 0:
+                position = len(values) - (step - position)
+            else:
+                position = position - step
+            Backward_Sum += int(values[position])
+
+print(f'Forward: {Forward_Sum}')
+print(f'Backwards: {Backward_Sum}')
