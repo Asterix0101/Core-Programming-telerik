@@ -1,0 +1,103 @@
+def corner(r,c,R,C):
+    if (r==0 and c==C-1) or (r==R-1 and c==0) or (r==R-1 and c==C-1):
+        return True
+def wall(r,c,R,C):
+    if r == 0 or r == R-1 or c == 0 or c == C-1:
+        return True
+def sum_n_append(r_h,c_h,r,c,matrix,sum):
+    r_h.append(r)
+    c_h.append(c)
+    sum += matrix[r][c]
+
+c_h = []
+r_h = []
+
+NM = input().split(' ')
+R = int(NM[0])
+C = int(NM[1])
+
+up = 0
+down = R-1
+left = 0
+right = C-1
+matrix = [[0 for x in range(C)] for y in range(R)]
+for r in range(R):
+    for c in range(C):
+        matrix[r][c] = 2**( r+c)
+sum = 0
+r=0
+c=0
+while True:
+    if (r==0 and c==C-1) or (r==R-1 and c==0) or (r==R-1 and c==C-1): #if corner breaks 
+        break
+    if r == up and c == left: #start
+        for r in range(0, R, 1):
+            c = r
+            r_h.append(r)
+            c_h.append(c)
+            sum += matrix[r][c]
+    if corner(r,c,R,C):
+        break
+    if r == down: 
+        c_last = (c_h[len(c_h)-1-1])
+        id = c - c_last
+        while True:
+            c += id
+            r -= 1
+            r_h.append(r)
+            c_h.append(c)
+            sum += matrix[r][c]
+            if corner(r,c,R,C):
+                break
+            if wall(r,c,R,C):
+                break
+    if corner(r,c,R,C):
+        break
+    if r == up:
+        c_last = (c_h[len(c_h)-1-1])
+        id = c - c_last
+        while True:
+            c += id
+            r += 1
+            r_h.append(r)
+            c_h.append(c)
+            sum += matrix[r][c]
+            if corner(r,c,R,C):
+                break
+            if wall(r,c,R,C):
+                break
+    if corner(r,c,R,C):
+        break
+    if c == right:
+        r_last = (r_h[len(c_h)-1-1])
+        id = (r - r_last) 
+        while True:
+            c -= 1
+            r += id
+            r_h.append(r)
+            c_h.append(c)
+            sum += matrix[r][c]
+            if corner(r,c,R,C):
+                break
+            if wall(r,c,R,C):
+                break
+    if corner(r,c,R,C):
+        break
+    if c == left:
+        r_last = (r_h[len(c_h)-1-1])
+        id = (r - r_last) * (-1)
+        while True:
+            c += 1
+            r += id
+            r_h.append(r)
+            c_h.append(c)
+            sum += matrix[r][c]
+            if corner(r,c,R,C):
+                break
+            if wall(r,c,R,C):
+                break
+    if corner(r,c,R,C):
+        break
+
+print(sum)
+
